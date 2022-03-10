@@ -1,4 +1,4 @@
-package com.example.android.politicalpreparedness.database
+package com.example.android.politicalpreparedness.data.source.database
 
 import android.content.Context
 import androidx.room.Database

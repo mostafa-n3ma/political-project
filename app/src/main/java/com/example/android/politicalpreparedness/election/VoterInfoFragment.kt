@@ -25,6 +25,7 @@ class VoterInfoFragment : Fragment() {
         //TODO: Handle save button UI state
         //TODO: cont'd Handle save button clicks
 
+        return view
     }
 
     //TODO: Create method to load URL intents

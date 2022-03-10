@@ -3,10 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/code station/Political Preparedness/starter/app/src/main/res/drawable/ballot_logo.xml" value="0.1695" />
         <entry key="..\:/code station/Political Preparedness/starter/app/src/main/res/drawable/ic_www.xml" value="0.1215" />
         <entry key="..\:/code station/Political Preparedness/starter/app/src/main/res/layout/activity_main.xml" value="0.14130434782608695" />
         <entry key="..\:/code station/Political Preparedness/starter/app/src/main/res/layout/fragment_election.xml" value="0.14130434782608695" />
-        <entry key="..\:/code station/Political Preparedness/starter/app/src/main/res/layout/fragment_launch.xml" value="0.14130434782608695" />
+        <entry key="..\:/code station/Political Preparedness/starter/app/src/main/res/layout/fragment_launch.xml" value="0.3333333333333333" />
         <entry key="..\:/code station/Political Preparedness/starter/app/src/main/res/layout/fragment_representative.xml" value="0.14130434782608695" />
         <entry key="..\:/code station/Political Preparedness/starter/app/src/main/res/layout/fragment_voter_info.xml" value="0.14130434782608695" />
         <entry key="..\:/code station/Political Preparedness/starter/app/src/main/res/menu/voterinfo_menu.xml" value="0.1796875" />
