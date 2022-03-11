@@ -52,6 +52,13 @@ class ElectionsRepository(
         }
     }
 
+
+    suspend fun getElection(id:Int):Election?{
+       return withContext(dispatcher){
+           localeDataSource.getElection(id)
+       }
+    }
+
      suspend fun deleteElection(electionId: Int) {
         withContext(dispatcher) {
             localeDataSource.deleteElection(electionId)

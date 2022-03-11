@@ -11,6 +11,11 @@ class LocaleDataSource(private val database:ElectionDatabase):DefaultLocaleDataS
         return  database.electionDao.getAllElections()
     }
 
+    override suspend fun getElection(id: Int): Election? {
+        return database.electionDao.getElection(id)
+    }
+
+
     override suspend fun deleteElection(electionId: Int) {
         database.electionDao.deleteElection(electionId)
     }

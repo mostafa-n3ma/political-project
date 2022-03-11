@@ -16,7 +16,7 @@ import java.util.*
 
 //TODO: Construct ViewModel and provide election datasource
 class ElectionsViewModel(private val electionsRepository: ElectionsRepository) : ViewModel() {
-private val TAG="ElectionsViewModel"
+
 
     // Live Data to hold the list of upcoming elections
     private val _upcomingElections = MutableLiveData<List<Election>>()
@@ -41,6 +41,7 @@ private val TAG="ElectionsViewModel"
     init {
         getUpcomingElections()
         getSavedElections()
+
     }
 
     /**

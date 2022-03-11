@@ -5,9 +5,6 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlinx-serialization'
 apply plugin: 'androidx.navigation.safeargs'
 
-// Used to obtain properties that should not be committed to GIT
-def localProperties = new Properties()
-localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
 android {
     compileSdkVersion 30
@@ -22,11 +19,7 @@ android {
         versionName "1.0"
     }
     buildTypes {
-        debug {
 
-            // The Google Civic Information API key. Add a key/value pair to local.properties to hold your API key to run this app
-            buildConfigField("String", "API_KEY", "\"" + localProperties['civicInformationApiKey'] + "\"")
-        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

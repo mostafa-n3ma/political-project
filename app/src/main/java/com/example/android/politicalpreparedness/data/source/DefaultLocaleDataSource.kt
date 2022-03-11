@@ -7,6 +7,8 @@ interface DefaultLocaleDataSource {
 
     suspend fun getSavedElections(): List<Election>?
 
+    suspend fun getElection(id:Int): Election?
+
     suspend fun deleteElection(electionId: Int)
 
     suspend fun saveElection(election: Election)
