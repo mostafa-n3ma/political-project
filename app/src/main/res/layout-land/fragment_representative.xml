@@ -14,7 +14,7 @@
         android:id="@+id/motion_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutDescription="@xml/fragment_representative_scene">
+        app:layoutDescription="@xml/fragment_representative_scene_land">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/representative_form_layout"
@@ -44,7 +44,6 @@
                 android:hint="@string/address_line_1_text"
                 android:inputType="textPostalAddress"
                 android:maxLines="1"
-                android:saveEnabled="true"
                 android:text="@={viewModel.address.line1}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/search_title" />
@@ -59,7 +58,6 @@
                 android:hint="@string/address_line_2_text"
                 android:inputType="textPostalAddress"
                 android:maxLines="1"
-                android:saveEnabled="true"
                 android:text="@={viewModel.address.line2}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/address_line_1" />
@@ -73,7 +71,6 @@
                 android:hint="@string/city_text"
                 android:inputType="textPostalAddress"
                 android:maxLines="1"
-                android:saveEnabled="true"
                 android:text="@={viewModel.address.city}"
                 app:layout_constraintEnd_toStartOf="@id/state"
                 app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +84,6 @@
                 android:entries="@array/states"
                 android:inputType="textPostalAddress"
                 android:maxLines="1"
-                android:saveEnabled="true"
                 app:layout_constraintBottom_toBottomOf="@id/city"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/city"
@@ -104,7 +100,6 @@
                 android:inputType="number"
                 android:maxLength="5"
                 android:maxLines="1"
-                android:saveEnabled="true"
                 android:text="@={viewModel.address.zip}"
                 app:layout_constraintEnd_toEndOf="@id/city"
                 app:layout_constraintStart_toStartOf="parent"

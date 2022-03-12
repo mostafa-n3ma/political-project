@@ -44,6 +44,8 @@
         <string name="error_location_services_required">Location Services are required to "Use My Location"</string>
         <string name="error_representatives">Unexpected error retrieving representatives</string>
 
+
+    <string name="err_lost_connection"> Please check your internet connection </string>
     </resources>
 
 

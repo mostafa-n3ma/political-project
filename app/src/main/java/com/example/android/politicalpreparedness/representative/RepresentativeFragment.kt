@@ -6,9 +6,13 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -22,6 +26,8 @@ import com.example.android.politicalpreparedness.representative.adapter.Represen
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_representative.*
+import timber.log.Timber
 import java.util.Locale
 
 class RepresentativeFragment : Fragment() {
@@ -42,10 +48,15 @@ class RepresentativeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
         binding = FragmentRepresentativeBinding.inflate(inflater)
+        binding.executePendingBindings()
         binding.lifecycleOwner = this
+        if (savedInstanceState!=null){
+            val motionLayoutStat: Int = savedInstanceState.getInt("motion_stat")
+            binding.motionLayout.transitionToState(motionLayoutStat)
+        }
+
+
         binding.viewModel = viewModel
 
         fusedLocationProviderClient = this.requireContext().let { LocationServices.getFusedLocationProviderClient(it) }
@@ -60,24 +71,39 @@ class RepresentativeFragment : Fragment() {
 
         binding.buttonSearch.setOnClickListener {
             hideKeyboard()
-            viewModel.getRepresentatives()
+            if (isOnline(requireContext())){
+                viewModel.getRepresentatives()
+            }else{
+                Snackbar.make(requireView(), R.string.err_lost_connection,Snackbar.LENGTH_LONG).show()
+            }
+
         }
         binding.buttonLocation.setOnClickListener {
             hideKeyboard()
-            getRepresentativesInMyLocation()
+            if (isOnline(requireContext())) {
+                getRepresentativesInMyLocation()
+            }else{
+                Snackbar.make(requireView(), R.string.err_lost_connection,Snackbar.LENGTH_LONG).show()
+            }
         }
 
         viewModel.status.observe(viewLifecycleOwner, Observer {
             if (it==ApiStatus.ERROR){
                 Snackbar.make(requireView(), R.string.error_representatives,Snackbar.LENGTH_LONG).show()
             }
-
         })
-
-
         return binding.root
-
     }
+
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("motion_stat",binding.motionLayout.currentState)
+    }
+
+
+
+
 
 
     private fun getRepresentativesInMyLocation() {
@@ -136,4 +162,30 @@ class RepresentativeFragment : Fragment() {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view!!.windowToken, 0)
     }
+
+//    checking network state
+    fun isOnline(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (connectivityManager != null) {
+            val capabilities =
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            if (capabilities != null) {
+                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                    Timber.i("NetworkCapabilities.TRANSPORT_CELLULAR")
+                    return true
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                    Timber.i( "NetworkCapabilities.TRANSPORT_WIFI")
+                    return true
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                    Timber.i("NetworkCapabilities.TRANSPORT_ETHERNET")
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+
+
 }
