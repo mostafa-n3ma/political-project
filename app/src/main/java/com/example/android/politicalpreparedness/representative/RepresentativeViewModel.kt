@@ -58,6 +58,8 @@ class RepresentativeViewModel(private val repository: ElectionsRepository): View
     fun getRepresentatives() {
             getRepresentatives(_address.value)
     }
+
+
 }
 
 

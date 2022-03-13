@@ -16,6 +16,7 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.example.android.politicalpreparedness.PoliticalApplication
 import com.example.android.politicalpreparedness.R
@@ -67,6 +68,13 @@ class RepresentativeFragment : Fragment() {
 
         viewModel.representatives.observe(viewLifecycleOwner, Observer { representatives ->
             representativesListAdapter.submitList(representatives)
+            if(representatives.isNotEmpty()){
+                savedInstanceState?.getInt("motion_stat")?.let{
+                    binding.motionLayout.transitionToState(it)
+                    Timber.i("Test :motionLayout")
+                }
+            }
+
         })
 
         binding.buttonSearch.setOnClickListener {
@@ -92,12 +100,22 @@ class RepresentativeFragment : Fragment() {
                 Snackbar.make(requireView(), R.string.error_representatives,Snackbar.LENGTH_LONG).show()
             }
         })
+
+        savedInstanceState?.getParcelable<Address>("address")?.let{
+            viewModel.getRepresentatives(it).let {
+               Timber.i("Test :getRepresentatives >>>>>>>>>>>>>>>>>")
+            }
+        }
+
+
+
         return binding.root
     }
 
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        outState.putParcelable("address",binding.viewModel?.address?.value)
         outState.putInt("motion_stat",binding.motionLayout.currentState)
     }
 
