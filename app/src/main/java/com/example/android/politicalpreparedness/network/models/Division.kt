@@ -8,5 +8,5 @@ data class Division(
         val id: String,
         val country: String,
         val state: String,
-        val any: String
+        val district: String
 ) : Parcelable
