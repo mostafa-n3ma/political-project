@@ -52,10 +52,7 @@ class RepresentativeFragment : Fragment() {
         binding = FragmentRepresentativeBinding.inflate(inflater)
         binding.executePendingBindings()
         binding.lifecycleOwner = this
-        if (savedInstanceState!=null){
-            val motionLayoutStat: Int = savedInstanceState.getInt("motion_stat")
-            binding.motionLayout.transitionToState(motionLayoutStat)
-        }
+
 
 
         binding.viewModel = viewModel
