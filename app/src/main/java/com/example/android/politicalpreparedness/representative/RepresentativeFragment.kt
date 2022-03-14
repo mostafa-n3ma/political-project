@@ -9,15 +9,13 @@ import android.location.Location
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android.politicalpreparedness.PoliticalApplication
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
@@ -29,7 +27,8 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_representative.*
 import timber.log.Timber
-import java.util.Locale
+import java.util.*
+
 
 class RepresentativeFragment : Fragment() {
 
@@ -53,8 +52,6 @@ class RepresentativeFragment : Fragment() {
         binding.executePendingBindings()
         binding.lifecycleOwner = this
 
-
-
         binding.viewModel = viewModel
 
         fusedLocationProviderClient = this.requireContext().let { LocationServices.getFusedLocationProviderClient(it) }
@@ -63,13 +60,47 @@ class RepresentativeFragment : Fragment() {
 
         binding.representativesRecyclerView.adapter=representativesListAdapter
 
+
+
         viewModel.representatives.observe(viewLifecycleOwner, Observer { representatives ->
             representativesListAdapter.submitList(representatives)
             if(representatives.isNotEmpty()){
-                savedInstanceState?.getInt("motion_stat")?.let{
-                    binding.motionLayout.transitionToState(it)
-                    Timber.i("Test :motionLayout")
+                try {
+                    val motionStat=savedInstanceState?.getInt("motion_stat")
+                    if (motionStat != null) {
+                        binding.motionLayout.transitionToState(motionStat)
+                        Timber.i("Test::: motion :$motionStat")
+                    }
+
+                }catch (e:Exception){
+
+                }finally {
+                    try {
+                        savedInstanceState?.getInt("recyclerStat").let {
+                            if (it != null) {
+                                binding.representativesRecyclerView.layoutManager!!.scrollToPosition(it+it)
+                                Timber.i("Test::: rec :$it")
+                            }}
+                    }catch (e:Exception){
+
+                    }
                 }
+
+
+
+//                savedInstanceState?.getInt("motion_stat")?.let{
+//                    binding.motionLayout.transitionToState(it)
+//                }
+//                savedInstanceState?.getInt("recyclerStat").let {
+//                    if (it != null) {
+//                        binding.representativesRecyclerView.layoutManager?.scrollToPosition(it)
+//                    }
+//                }
+//
+
+
+
+
             }
 
         })
@@ -114,7 +145,11 @@ class RepresentativeFragment : Fragment() {
         super.onSaveInstanceState(outState)
         outState.putParcelable("address",binding.viewModel?.address?.value)
         outState.putInt("motion_stat",binding.motionLayout.currentState)
+        val lastFirstVisiblePosition: Int = (binding.representativesRecyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+        outState.putInt("recyclerStat",lastFirstVisiblePosition)
+
     }
+
 
 
 
